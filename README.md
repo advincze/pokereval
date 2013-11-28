@@ -1,0 +1,4 @@
+pokereval
+=========
+
+evaluate poker hands 
