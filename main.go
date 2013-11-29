@@ -9,6 +9,7 @@ import (
 
 func main() {
 	deck := NewDeck()
+	rand.Seed(time.Now().UTC().UnixNano())
 	deck.Shuffle()
 	fmt.Printf("%v\n", deck)
 	hand := deck.giveRoundRobinHands(1)[0]
@@ -112,6 +113,9 @@ type Card struct {
 }
 
 func (c *Card) String() string {
+	if c.rank == rank_Joker {
+		return c.rank.String()
+	}
 	return c.rank.String() + c.suit.String()
 }
 
@@ -134,7 +138,9 @@ func (s *Suit) String() string {
 
 func (r *Rank) String() string {
 	switch *r {
-	case rank_ace:
+	case rank_Joker:
+		return "Jkr"
+	case rank_Ace:
 		return "A"
 	case rank_2:
 		return "2"
@@ -160,6 +166,7 @@ func (r *Rank) String() string {
 		return "Q"
 	case rank_King:
 		return "K"
+
 	}
 	panic("no other ranks")
 }
@@ -172,7 +179,8 @@ const (
 )
 
 const (
-	rank_ace Rank = iota
+	rank_Joker Rank = iota
+	rank_Ace
 	rank_2
 	rank_3
 	rank_4
@@ -188,4 +196,4 @@ const (
 )
 
 var suits = []Suit{clubs, diamonds, hearts, spades}
-var ranks = []Rank{rank_ace, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9, rank_10, rank_Jack, rank_Queen, rank_King}
+var ranks = []Rank{rank_Ace, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9, rank_10, rank_Jack, rank_Queen, rank_King}
