@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"math/rand"
 	"time"
@@ -9,9 +10,9 @@ import (
 func main() {
 	deck := NewDeck()
 	deck.Shuffle()
-	fmt.Printf("%v\n", deck.cards)
+	fmt.Printf("%v\n", deck)
 	hand := deck.giveRoundRobinHands(1)[0]
-	fmt.Printf("%v\n", hand.cards)
+	fmt.Printf("%v\n", hand)
 }
 
 type Deck struct {
@@ -75,6 +76,17 @@ func (d *Deck) Shuffle() {
 
 }
 
+func (d *Deck) String() string {
+	var buffer bytes.Buffer
+	buffer.WriteString("{{Cards")
+	for _, card := range d.cards {
+		buffer.WriteString("|")
+		buffer.WriteString(card.String())
+	}
+	buffer.WriteString("}}")
+	return buffer.String()
+}
+
 type Hand struct {
 	cards []*Card
 }
@@ -83,13 +95,24 @@ func NewHand(cards ...*Card) *Hand {
 	return &Hand{cards: cards}
 }
 
+func (h *Hand) String() string {
+	var buffer bytes.Buffer
+	buffer.WriteString("{{Cards")
+	for _, card := range h.cards {
+		buffer.WriteString("|")
+		buffer.WriteString(card.String())
+	}
+	buffer.WriteString("}}")
+	return buffer.String()
+}
+
 type Card struct {
 	suit Suit
 	rank Rank
 }
 
 func (c *Card) String() string {
-	return "[" + c.rank.String() + " of " + c.suit.String() + "]"
+	return c.rank.String() + c.suit.String()
 }
 
 type Suit int
@@ -98,13 +121,13 @@ type Rank int
 func (s *Suit) String() string {
 	switch *s {
 	case clubs:
-		return "clubs"
+		return "♣"
 	case diamonds:
-		return "diamonds"
+		return "♦"
 	case hearts:
-		return "hearts"
+		return "♥"
 	case spades:
-		return "spades"
+		return "♠"
 	}
 	panic("no other suits")
 }
@@ -112,7 +135,7 @@ func (s *Suit) String() string {
 func (r *Rank) String() string {
 	switch *r {
 	case rank_ace:
-		return "ace"
+		return "A"
 	case rank_2:
 		return "2"
 	case rank_3:
@@ -132,11 +155,11 @@ func (r *Rank) String() string {
 	case rank_10:
 		return "10"
 	case rank_Jack:
-		return "jack"
+		return "J"
 	case rank_Queen:
-		return "queen"
+		return "Q"
 	case rank_King:
-		return "king"
+		return "K"
 	}
 	panic("no other ranks")
 }
