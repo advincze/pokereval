@@ -10,7 +10,7 @@ func main() {
 	deck := NewDeck()
 	deck.Shuffle()
 	fmt.Printf("%v\n", deck.cards)
-	hand := deck.giveRandomHand()
+	hand := deck.giveRoundRobinHands(1)[0]
 	fmt.Printf("%v\n", hand.cards)
 }
 
@@ -35,6 +35,24 @@ func (d *Deck) putCard(card *Card) {
 
 func (d *Deck) giveRandomHand() *Hand {
 	return NewHand(d.giveRandomCard(), d.giveRandomCard())
+}
+
+func (d *Deck) giveRoundRobinHands(numberOfHands int) []*Hand {
+	hands := make([]*Hand, numberOfHands)
+	for i := 0; i < numberOfHands; i++ {
+		hands[i] = NewHand(d.giveTopCard())
+	}
+	for i := 0; i < numberOfHands; i++ {
+		hands[i].cards = append(hands[i].cards, d.giveTopCard())
+	}
+	return hands
+}
+
+func (d *Deck) giveTopCard() *Card {
+	if len(d.cards) == 0 {
+		return nil
+	}
+	return d.giveCard(0)
 }
 
 func (d *Deck) giveRandomCard() *Card {
@@ -128,6 +146,9 @@ const (
 	diamonds
 	hearts
 	spades
+)
+
+const (
 	rank_ace Rank = iota
 	rank_2
 	rank_3
