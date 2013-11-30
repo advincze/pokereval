@@ -12,8 +12,6 @@ type EvalResult struct {
 }
 
 func eval5(hand Hand) *EvalResult {
-	// println("len of hand:", len(hand))
-	score := uint32(0)
 
 	//precalculations
 	var numInRank [NUM_RANKS]int
@@ -24,13 +22,7 @@ func eval5(hand Hand) *EvalResult {
 	}
 
 	// check for flush
-	var flush bool
-	for _, suit := range suits {
-		if numInSuit[suit] == NUM_CARDS {
-			flush = true
-			break
-		}
-	}
+	flush := checkFlush(&numInSuit)
 
 	// check for straight
 	straight := checkStraight(&numInRank)
@@ -42,6 +34,7 @@ func eval5(hand Hand) *EvalResult {
 	var lowerRank Rank
 	var pairs int
 	var rankScore uint32
+	var score uint32
 	for rank := rank_2; rank <= rank_Ace; rank += 1 {
 
 		if numInRank[rank] != 0 {
@@ -91,6 +84,15 @@ func eval5(hand Hand) *EvalResult {
 		pairs:    pairs,
 		score:    score,
 	}
+}
+
+func checkFlush(numInSuit *[NUM_SUITS]int) bool {
+	for _, suit := range suits {
+		if numInSuit[suit] == NUM_CARDS {
+			return true
+		}
+	}
+	return false
 }
 
 func checkStraight(numInRank *[NUM_RANKS]int) bool {
