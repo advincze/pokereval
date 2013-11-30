@@ -27,6 +27,6 @@ func NewMatrix() EvalMatrix {
 }
 
 func eval(hand Hand) int {
-
+	// println("len of hand:", len(hand))
 	return 0
 }

@@ -28,6 +28,10 @@ func (d Deck) giveRoundRobinHands(noHands, noCards int) []Hand {
 	return hands
 }
 
+func (d Deck) giveTopCard() (Deck, Card) {
+	return d[1:], d[0]
+}
+
 func (d Deck) giveTopCards(number int) (Deck, []Card) {
 	return d[number:], d[:number]
 }
