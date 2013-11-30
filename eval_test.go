@@ -154,6 +154,13 @@ func TestShouldScoreHigherWithHigherHighcard(t *testing.T) {
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
 
+func TestShouldScoreHigherWithHigherPairButLowerRanks(t *testing.T) {
+	lowerHand := Hand(ParseCards("C7", "S7", "D3", "H4", "DK"))
+	higherHand := Hand(ParseCards("HQ", "DQ", "S7", "H3", "D4"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
 func TestShouldScoreHigherWithHigherHighcardAce(t *testing.T) {
 	lowerHand := Hand(ParseCards("C5", "S7", "D3", "H4", "D2"))
 	higherHand := Hand(ParseCards("CA", "S4", "D5", "H2", "D6"))
@@ -199,6 +206,13 @@ func TestShouldScoreHigherWithTwoPairsVsOnePair(t *testing.T) {
 func TestShouldScoreHigherWithTwoPairs(t *testing.T) {
 	lowerHand := Hand(ParseCards("C7", "S7", "C3", "S3", "DQ"))
 	higherHand := Hand(ParseCards("H7", "D7", "HQ", "DQ", "D3"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
+func TestShouldScoreHigherWithTwoPairsLowerPairDecides(t *testing.T) {
+	lowerHand := Hand(ParseCards("C7", "S7", "C3", "S3", "DQ"))
+	higherHand := Hand(ParseCards("H7", "D7", "H4", "D4", "D3"))
 
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }

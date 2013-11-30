@@ -98,6 +98,8 @@ const (
 
 var suits = []Suit{clubs, diamonds, hearts, spades}
 
+const NUM_SUITS = 4
+
 func (s Suit) String() string {
 	switch s {
 	case clubs:
@@ -112,11 +114,11 @@ func (s Suit) String() string {
 	panic("no other suits")
 }
 
-type Rank int
+type Rank byte
 
+const NUM_RANKS = 13
 const (
-	rank_Ace Rank = iota
-	rank_2
+	rank_2 Rank = iota
 	rank_3
 	rank_4
 	rank_5
@@ -128,15 +130,14 @@ const (
 	rank_Jack
 	rank_Queen
 	rank_King
-	rank_AceHigh
+	rank_Ace
 )
 
 var ranks = []Rank{rank_Ace, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9, rank_10, rank_Jack, rank_Queen, rank_King}
 
 func (r Rank) String() string {
 	switch r {
-	case rank_Ace:
-		return "A"
+
 	case rank_2:
 		return "2"
 	case rank_3:
@@ -161,8 +162,8 @@ func (r Rank) String() string {
 		return "Q"
 	case rank_King:
 		return "K"
-	case rank_AceHigh:
-		return "A2"
+	case rank_Ace:
+		return "A"
 	}
 	panic("no other ranks")
 }
