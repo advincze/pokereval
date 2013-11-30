@@ -73,9 +73,9 @@ func eval5(hand Hand) *EvalResult {
 				}
 				score |= 1 << (i - 1)
 			}
-
 		case 2:
 			pairs += 1
+			highRank = rank
 		case 3:
 			three = true
 			highRank = rank
@@ -91,22 +91,23 @@ func eval5(hand Hand) *EvalResult {
 		score |= 1 << 31
 	} else if four {
 		score |= 1 << 30
-		score |= uint32(highRank) << 20
+		// score |= uint32(highRank) << 20
 	} else if three && pairs == 1 {
 		score |= 1 << 29
-		score |= uint32(highRank) << 20
+		// score |= uint32(highRank) << 20
 	} else if flush {
 		score |= 1 << 28
 	} else if straight {
 		score |= 1 << 27
 	} else if three {
 		score |= 1 << 26
-		score |= uint32(highRank) << 20
+		// score |= uint32(highRank) << 20
 	} else if pairs == 2 {
 		score |= 1 << 25
 	} else if pairs == 1 {
 		score |= 1 << 24
 	}
+	score |= uint32(highRank) << 20
 	// log.Printf("score2 : %b\n", score)
 
 	return &EvalResult{

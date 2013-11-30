@@ -196,6 +196,13 @@ func TestShouldScoreHigherWithTwoPairsVsOnePair(t *testing.T) {
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
 
+func TestShouldScoreHigherWithTwoPairs(t *testing.T) {
+	lowerHand := Hand(ParseCards("C7", "S7", "C3", "S3", "DQ"))
+	higherHand := Hand(ParseCards("H7", "D7", "HQ", "DQ", "D3"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
 func TestShouldScoreHigherWithTwoPairsHigherKicker(t *testing.T) {
 	lowerHand := Hand(ParseCards("C7", "S7", "C3", "S3", "DQ"))
 	higherHand := Hand(ParseCards("H7", "D7", "H3", "D3", "DK"))
