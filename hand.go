@@ -19,14 +19,3 @@ const (
 	four_of_a_kind
 	straight_flush
 )
-
-type EvalMatrix []byte
-
-func NewMatrix() EvalMatrix {
-	return EvalMatrix(make([]byte, 14))
-}
-
-func eval(hand Hand) int {
-	println("len of hand:", len(hand))
-	return 0
-}

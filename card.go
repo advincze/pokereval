@@ -4,18 +4,23 @@ import (
 	"bytes"
 )
 
-type Card int
+type Card struct {
+	value int
+}
 
 func NewCard(suit Suit, rank Rank) Card {
-	return Card(int(suit)*13 + int(rank))
+	card := new(Card)
+	card.value = int(suit)*13 + int(rank)
+
+	return *card
 }
 
 func (c Card) getSuit() Suit {
-	return Suit(int(c) / 13)
+	return Suit(int(c.value) / 13)
 }
 
 func (c Card) getRank() Rank {
-	return Rank(int(c) % 13)
+	return Rank(int(c.value) % 13)
 }
 
 func (c *Card) String() string {
@@ -63,6 +68,7 @@ const (
 	rank_Jack
 	rank_Queen
 	rank_King
+	rank_AceHigh
 )
 
 var ranks = []Rank{rank_Ace, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9, rank_10, rank_Jack, rank_Queen, rank_King}
@@ -95,6 +101,8 @@ func (r Rank) String() string {
 		return "Q"
 	case rank_King:
 		return "K"
+	case rank_AceHigh:
+		return "A2"
 	}
 	panic("no other ranks")
 }

@@ -8,10 +8,10 @@ import (
 func main() {
 	rand.Seed(int64(8))
 	deck := NewDeck()
+	// fmt.Printf("deck: %v\n", Cards(deck))
+	// deck.Shuffle()
 	fmt.Printf("deck: %v\n", Cards(deck))
-	deck.Shuffle()
-	fmt.Printf("deck: %v\n", Cards(deck))
-	deck, cards := deck.giveTopCards(7)
+	deck, cards := deck.giveTopCards(5)
 	fmt.Printf("hand: %v\n", Cards(cards))
-	eval(Hand(cards))
+	eval5(Hand(cards))
 }
