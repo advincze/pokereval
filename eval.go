@@ -1,6 +1,18 @@
 package main
 
+import (
+	"log"
+)
+
 const NUM_CARDS = 5
+const FLAG_STRAIGHT_FLUSH = 1 << 31
+const FLAG_FOUR_OF_A_KIND = 1 << 30
+const FLAG_FULL_HOUSE = 1 << 29
+const FLAG_FLUSH = 1 << 28
+const FLAG_STRAIGHT = 1 << 27
+const FLAG_THREE_OF_A_KIND = 1 << 26
+const FLAG_TWO_PAIRS = 1 << 25
+const FLAG_ONE_PAIR = 1 << 24
 
 type EvalResult struct {
 	straight bool
@@ -44,35 +56,32 @@ func eval5(hand Hand) *EvalResult {
 		switch numInRank[rank] {
 		case 2:
 			pairs += 1
-			highRank, lowerRank = rank, highRank
+			highRank, lowerRank = lowerRank, rank+1
 		case 3:
 			three = true
-			highRank = rank
+			highRank = rank + 1
 		case 4:
 			four = true
-			highRank = rank
+			highRank = rank + 1
 		}
 	}
 
 	score |= rankScore
 
 	if straight && flush {
-		score |= 1 << 31
+		score |= FLAG_STRAIGHT_FLUSH
 	} else if four {
-		score |= 1 << 30
+		score |= FLAG_FOUR_OF_A_KIND
 	} else if three && pairs == 1 {
-		score |= 1 << 29
+		score |= FLAG_FULL_HOUSE
 	} else if flush {
-		score |= 1 << 28
+		score |= FLAG_FLUSH
 	} else if straight {
-		score |= 1 << 27
+		score |= FLAG_STRAIGHT
 	} else if three {
-		score |= 1 << 26
-	} else if pairs == 2 {
-		score |= 1 << 25
-	} else if pairs == 1 {
-		score |= 1 << 24
+		score |= FLAG_THREE_OF_A_KIND
 	}
+
 	score |= uint32(highRank+1) << 20
 	score |= uint32(lowerRank+1) << 16
 
