@@ -61,49 +61,51 @@ func eval5(hand Hand) *EvalResult {
 	//check four of a kind, three of a kind and pairs
 	var four bool
 	var three bool
+	var highRank Rank
 	var pairs int
 	for rank := minRank; rank < rank_AceHigh; rank++ {
 		switch countRank[rank] {
 		case 1:
 			{
-				// score *= primes[rank]
 				i := uint(rank)
 				if i == 0 {
 					i = 13
 				}
 				score |= 1 << (i - 1)
-				// log.Printf("score1 : %v, %d %d\n", rank, primes[rank], score)
 			}
 
 		case 2:
 			pairs += 1
 		case 3:
 			three = true
+			highRank = rank
 		case 4:
 			four = true
+			highRank = rank
 		}
 	}
 
 	// log.Printf("score1 : %b\n", score)
 
-	if straight {
-		if flush {
-			score |= 1 << 22
-		} else {
-			score |= 1 << 18
-		}
+	if straight && flush {
+		score |= 1 << 31
 	} else if four {
-		score |= 1 << 21
+		score |= 1 << 30
+		score |= uint32(highRank) << 20
 	} else if three && pairs == 1 {
-		score |= 1 << 20
+		score |= 1 << 29
+		score |= uint32(highRank) << 20
 	} else if flush {
-		score |= 1 << 19
+		score |= 1 << 28
+	} else if straight {
+		score |= 1 << 27
 	} else if three {
-		score |= 1 << 17
+		score |= 1 << 26
+		score |= uint32(highRank) << 20
 	} else if pairs == 2 {
-		score |= 1 << 16
+		score |= 1 << 25
 	} else if pairs == 1 {
-		score |= 1 << 15
+		score |= 1 << 24
 	}
 	// log.Printf("score2 : %b\n", score)
 

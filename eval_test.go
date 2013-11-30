@@ -265,10 +265,30 @@ func TestShouldScoreHigherWithFullhouseVsFlush(t *testing.T) {
 
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
+func TestShouldScoreHigherWithFUllHouseVsFullHouse(t *testing.T) {
+	lowerHand := Hand(ParseCards("C8", "D8", "C9", "D9", "S9"))
+	higherHand := Hand(ParseCards("S8", "D8", "S10", "D10", "H10"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
 
 func TestShouldScoreHigherWith4oakVsFullHouse(t *testing.T) {
 	lowerHand := Hand(ParseCards("CK", "DK", "HQ", "DQ", "SQ"))
 	higherHand := Hand(ParseCards("C2", "D2", "S2", "H2", "S3"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
+func TestShouldScoreHigherWith4oakVs4oak(t *testing.T) {
+	lowerHand := Hand(ParseCards("C8", "D8", "S8", "H8", "D9"))
+	higherHand := Hand(ParseCards("C9", "D9", "S9", "H9", "D8"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
+func TestShouldScoreHigherWith4oakVs4oakDecideOnKickerCard(t *testing.T) {
+	lowerHand := Hand(ParseCards("C9", "D9", "S9", "H9", "DJ"))
+	higherHand := Hand(ParseCards("C9", "D9", "S9", "H9", "DQ"))
 
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
@@ -280,8 +300,15 @@ func TestShouldScoreHigherWithStraightFlushVs4oak(t *testing.T) {
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
 
+func TestShouldScoreHigherWithStraightFlushVsStraightFlush(t *testing.T) {
+	lowerHand := Hand(ParseCards("C8", "C9", "C10", "CJ", "CQ"))
+	higherHand := Hand(ParseCards("C9", "C10", "CJ", "CQ", "CK"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
 func ShouldScoreHigherWithBetterCombination(t *testing.T, lowerHand, higherHand Hand) {
 	if lowerRes, higherRes := eval5(lowerHand), eval5(higherHand); lowerRes.score >= higherRes.score {
-		t.Errorf("hand: %v with res: %#v should score higher than %v res: %#v", Cards(lowerHand), lowerRes, Cards(higherHand), higherRes)
+		t.Errorf("hand: %v with res: %#v should score higher than %v res: %#v", Cards(higherHand), higherRes, Cards(lowerHand), lowerRes)
 	}
 }
