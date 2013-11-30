@@ -1,12 +1,24 @@
 package main
 
-type Card struct {
-	suit Suit
-	rank Rank
+type Card int
+
+func NewCard(suit Suit, rank Rank) Card {
+	return Card(int(suit)*len(ranks) + int(rank))
+}
+
+func (c Card) getSuit() Suit {
+	return Suit(int(c) / len(ranks))
+}
+
+func (c Card) getRank() Rank {
+	return Rank(int(c) % len(ranks))
+}
+
+func (c *Card) String() string {
+	return c.getRank().String() + c.getSuit().String()
 }
 
 type Suit int
-type Rank int
 
 const (
 	clubs Suit = iota
@@ -15,9 +27,26 @@ const (
 	spades
 )
 
+var suits = []Suit{clubs, diamonds, hearts, spades}
+
+func (s Suit) String() string {
+	switch s {
+	case clubs:
+		return "♣"
+	case diamonds:
+		return "♦"
+	case hearts:
+		return "♥"
+	case spades:
+		return "♠"
+	}
+	panic("no other suits")
+}
+
+type Rank int
+
 const (
-	rank_Joker Rank = iota
-	rank_Ace
+	rank_Ace Rank = iota
 	rank_2
 	rank_3
 	rank_4
@@ -32,34 +61,10 @@ const (
 	rank_King
 )
 
-var suits = []Suit{clubs, diamonds, hearts, spades}
 var ranks = []Rank{rank_Ace, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9, rank_10, rank_Jack, rank_Queen, rank_King}
 
-func (c *Card) String() string {
-	if c.rank == rank_Joker {
-		return c.rank.String()
-	}
-	return c.rank.String() + c.suit.String()
-}
-
-func (s *Suit) String() string {
-	switch *s {
-	case clubs:
-		return "♣"
-	case diamonds:
-		return "♦"
-	case hearts:
-		return "♥"
-	case spades:
-		return "♠"
-	}
-	panic("no other suits")
-}
-
-func (r *Rank) String() string {
-	switch *r {
-	case rank_Joker:
-		return "Jkr"
+func (r Rank) String() string {
+	switch r {
 	case rank_Ace:
 		return "A"
 	case rank_2:
@@ -86,7 +91,6 @@ func (r *Rank) String() string {
 		return "Q"
 	case rank_King:
 		return "K"
-
 	}
 	panic("no other ranks")
 }
