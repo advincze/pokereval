@@ -5,7 +5,7 @@ import (
 )
 
 func TestShouldRecogniseFlush(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_2),
 		NewCard(clubs, rank_4),
 		NewCard(clubs, rank_6),
@@ -18,7 +18,7 @@ func TestShouldRecogniseFlush(t *testing.T) {
 }
 
 func TestShouldRecogniseNonFlush(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_2),
 		NewCard(clubs, rank_4),
 		NewCard(clubs, rank_6),
@@ -31,7 +31,7 @@ func TestShouldRecogniseNonFlush(t *testing.T) {
 }
 
 func TestShouldRecogniseStraightWithNoAce(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_2),
 		NewCard(clubs, rank_4),
 		NewCard(clubs, rank_5),
@@ -44,7 +44,7 @@ func TestShouldRecogniseStraightWithNoAce(t *testing.T) {
 }
 
 func TestShouldRecogniseStraightWithAceAsFirstCard(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_2),
 		NewCard(spades, rank_4),
 		NewCard(clubs, rank_5),
@@ -57,7 +57,7 @@ func TestShouldRecogniseStraightWithAceAsFirstCard(t *testing.T) {
 }
 
 func TestShouldRecogniseStraightWithAceAsLastCard(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_Queen),
 		NewCard(spades, rank_10),
 		NewCard(clubs, rank_Jack),
@@ -70,7 +70,7 @@ func TestShouldRecogniseStraightWithAceAsLastCard(t *testing.T) {
 }
 
 func TestShouldRecogniseNonStraightWithAce(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_Queen),
 		NewCard(spades, rank_9),
 		NewCard(clubs, rank_Jack),
@@ -83,7 +83,7 @@ func TestShouldRecogniseNonStraightWithAce(t *testing.T) {
 }
 
 func TestShouldRecogniseFourOfAKind(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_2),
 		NewCard(spades, rank_2),
 		NewCard(diamonds, rank_2),
@@ -96,7 +96,7 @@ func TestShouldRecogniseFourOfAKind(t *testing.T) {
 }
 
 func TestShouldRecogniseFourOfAKindAce(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_Ace),
 		NewCard(spades, rank_Ace),
 		NewCard(diamonds, rank_Ace),
@@ -109,7 +109,7 @@ func TestShouldRecogniseFourOfAKindAce(t *testing.T) {
 }
 
 func TestShouldRecogniseThreeOfAKind(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_King),
 		NewCard(spades, rank_King),
 		NewCard(diamonds, rank_King),
@@ -122,7 +122,7 @@ func TestShouldRecogniseThreeOfAKind(t *testing.T) {
 }
 
 func TestShouldRecogniseFullHouse(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_King),
 		NewCard(spades, rank_King),
 		NewCard(diamonds, rank_Ace),
@@ -135,7 +135,7 @@ func TestShouldRecogniseFullHouse(t *testing.T) {
 }
 
 func TestShouldRecogniseTwoPairs(t *testing.T) {
-	hand := Hand([]Card{
+	hand := Hand([]*Card{
 		NewCard(clubs, rank_King),
 		NewCard(spades, rank_King),
 		NewCard(diamonds, rank_Ace),

@@ -4,10 +4,10 @@ import (
 	"math/rand"
 )
 
-type Deck []Card
+type Deck []*Card
 
 func NewDeck() Deck {
-	deck := Deck(make([]Card, 0, 52))
+	deck := Deck(make([]*Card, 0, 52))
 	for _, suit := range suits {
 		for _, rank := range ranks {
 			deck = append(deck, NewCard(suit, rank))
@@ -18,7 +18,7 @@ func NewDeck() Deck {
 
 func (d Deck) giveRoundRobinHands(noHands, noCards int) []Hand {
 	hands := make([]Hand, 0, noHands)
-	var card Card
+	var card *Card
 	for j := 0; j < noCards; j++ {
 		for i := 0; i < noHands; i++ {
 			d, card = d.giveTopCard()
@@ -28,15 +28,15 @@ func (d Deck) giveRoundRobinHands(noHands, noCards int) []Hand {
 	return hands
 }
 
-func (d Deck) giveTopCard() (Deck, Card) {
+func (d Deck) giveTopCard() (Deck, *Card) {
 	return d[1:], d[0]
 }
 
-func (d Deck) giveTopCards(number int) (Deck, []Card) {
+func (d Deck) giveTopCards(number int) (Deck, []*Card) {
 	return d[number:], d[:number]
 }
 
-func (d Deck) giveCard(index int) (Deck, Card) {
+func (d Deck) giveCard(index int) (Deck, *Card) {
 	card := d[index]
 	d = append(d[:index], d[index+1:]...)
 	return d, card

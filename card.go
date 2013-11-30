@@ -8,22 +8,22 @@ type Card struct {
 	value int
 }
 
-func NewCard(suit Suit, rank Rank) Card {
+func NewCard(suit Suit, rank Rank) *Card {
 	card := new(Card)
 	card.value = int(suit)*13 + int(rank)
 
-	return *card
+	return card
 }
 
-func ParseCards(cardNames ...string) []Card {
-	cards := make([]Card, len(cardNames))
+func ParseCards(cardNames ...string) []*Card {
+	cards := make([]*Card, len(cardNames))
 	for i, cardName := range cardNames {
 		cards[i] = ParseCard(cardName)
 	}
 	return cards
 }
 
-func ParseCard(cardName string) Card {
+func ParseCard(cardName string) *Card {
 	suit := ParseSuit(cardName[0])
 	rank := ParseRank(cardName[1:])
 	return NewCard(suit, rank)
@@ -75,11 +75,11 @@ func ParseRank(rankName string) Rank {
 	panic("no other ranks")
 }
 
-func (c Card) getSuit() Suit {
+func (c *Card) getSuit() Suit {
 	return Suit(int(c.value) / 13)
 }
 
-func (c Card) getRank() Rank {
+func (c *Card) getRank() Rank {
 	return Rank(int(c.value) % 13)
 }
 
@@ -168,7 +168,7 @@ func (r Rank) String() string {
 	panic("no other ranks")
 }
 
-type Cards []Card
+type Cards []*Card
 
 func (cards Cards) String() string {
 	var buffer bytes.Buffer
