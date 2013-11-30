@@ -15,6 +15,66 @@ func NewCard(suit Suit, rank Rank) Card {
 	return *card
 }
 
+func ParseCards(cardNames ...string) []Card {
+	cards := make([]Card, len(cardNames))
+	for i, cardName := range cardNames {
+		cards[i] = ParseCard(cardName)
+	}
+	return cards
+}
+
+func ParseCard(cardName string) Card {
+	suit := ParseSuit(cardName[0])
+	rank := ParseRank(cardName[1:])
+	return NewCard(suit, rank)
+}
+
+func ParseSuit(suitName byte) Suit {
+	switch suitName {
+	case 'C':
+		return clubs
+	case 'H':
+		return hearts
+	case 'D':
+		return diamonds
+	case 'S':
+		return spades
+	}
+	panic("no other suits")
+}
+
+func ParseRank(rankName string) Rank {
+	switch rankName {
+	case "A":
+		return rank_Ace
+	case "2":
+		return rank_2
+	case "3":
+		return rank_3
+	case "4":
+		return rank_4
+	case "5":
+		return rank_5
+	case "6":
+		return rank_6
+	case "7":
+		return rank_7
+	case "8":
+		return rank_8
+	case "9":
+		return rank_9
+	case "10":
+		return rank_10
+	case "J":
+		return rank_Jack
+	case "Q":
+		return rank_Queen
+	case "K":
+		return rank_King
+	}
+	panic("no other ranks")
+}
+
 func (c Card) getSuit() Suit {
 	return Suit(int(c.value) / 13)
 }
