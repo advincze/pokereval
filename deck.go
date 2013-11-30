@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"math/rand"
 )
 
@@ -17,25 +16,26 @@ func NewDeck() Deck {
 	return deck
 }
 
-func (d Deck) giveRoundRobinHands(numberOfHands int) []Hand {
-	hands := make([]Hand, numberOfHands)
-	for i := 0; i < numberOfHands; i++ {
-		hands[i] = NewHand(d.giveTopCard())
-	}
-	for i := 0; i < numberOfHands; i++ {
-		hands[i] = append(hands[i], d.giveTopCard())
+func (d Deck) giveRoundRobinHands(noHands, noCards int) []Hand {
+	hands := make([]Hand, 0, noHands)
+	var card Card
+	for j := 0; j < noCards; j++ {
+		for i := 0; i < noHands; i++ {
+			d, card = d.giveTopCard()
+			hands[i] = append(hands[i], card)
+		}
 	}
 	return hands
 }
 
-func (d Deck) giveTopCard() Card {
-	return d.giveCard(0)
+func (d Deck) giveTopCards(number int) (Deck, []Card) {
+	return d[number:], d[:number]
 }
 
-func (d Deck) giveCard(index int) Card {
+func (d Deck) giveCard(index int) (Deck, Card) {
 	card := d[index]
 	d = append(d[:index], d[index+1:]...)
-	return card
+	return d, card
 }
 
 func (d Deck) Shuffle() {
@@ -44,16 +44,4 @@ func (d Deck) Shuffle() {
 			d[i], d[j] = d[j], d[i]
 		}
 	}
-
-}
-
-func (d Deck) String() string {
-	var buffer bytes.Buffer
-	buffer.WriteString("{{Cards")
-	for _, card := range d {
-		buffer.WriteString("|")
-		buffer.WriteString(card.String())
-	}
-	buffer.WriteString("}}")
-	return buffer.String()
 }

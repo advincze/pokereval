@@ -1,17 +1,21 @@
 package main
 
+import (
+	"bytes"
+)
+
 type Card int
 
 func NewCard(suit Suit, rank Rank) Card {
-	return Card(int(suit)*len(ranks) + int(rank))
+	return Card(int(suit)*13 + int(rank))
 }
 
 func (c Card) getSuit() Suit {
-	return Suit(int(c) / len(ranks))
+	return Suit(int(c) / 13)
 }
 
 func (c Card) getRank() Rank {
-	return Rank(int(c) % len(ranks))
+	return Rank(int(c) % 13)
 }
 
 func (c *Card) String() string {
@@ -93,4 +97,17 @@ func (r Rank) String() string {
 		return "K"
 	}
 	panic("no other ranks")
+}
+
+type Cards []Card
+
+func (cards Cards) String() string {
+	var buffer bytes.Buffer
+	buffer.WriteString("{{Cards")
+	for _, card := range cards {
+		buffer.WriteString("|")
+		buffer.WriteString(card.String())
+	}
+	buffer.WriteString("}}")
+	return buffer.String()
 }

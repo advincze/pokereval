@@ -3,15 +3,15 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 func main() {
+	rand.Seed(int64(8))
 	deck := NewDeck()
-	fmt.Printf("%v\n", deck)
-	rand.Seed(time.Now().UTC().UnixNano())
+	fmt.Printf("deck: %v\n", Cards(deck))
 	deck.Shuffle()
-	fmt.Printf("%v\n", deck)
-	hand := deck.giveRoundRobinHands(1)
-	fmt.Printf("%v\n", hand)
+	fmt.Printf("deck: %v\n", Cards(deck))
+	deck, cards := deck.giveTopCards(5)
+	fmt.Printf("hand: %v\n", Cards(cards))
+	eval(Hand(cards))
 }

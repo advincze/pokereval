@@ -1,24 +1,9 @@
 package main
 
-import (
-	"bytes"
-)
-
 type Hand []Card
 
 func NewHand(cards ...Card) Hand {
 	return Hand(cards)
-}
-
-func (h Hand) String() string {
-	var buffer bytes.Buffer
-	buffer.WriteString("{{Cards")
-	for _, card := range h {
-		buffer.WriteString("|")
-		buffer.WriteString(card.String())
-	}
-	buffer.WriteString("}}")
-	return buffer.String()
 }
 
 type Combination int
@@ -34,3 +19,14 @@ const (
 	four_of_a_kind
 	straight_flush
 )
+
+type EvalMatrix []byte
+
+func NewMatrix() EvalMatrix {
+	return EvalMatrix(make([]byte, 14))
+}
+
+func eval(hand Hand) int {
+
+	return 0
+}
