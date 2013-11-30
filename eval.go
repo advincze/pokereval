@@ -1,9 +1,5 @@
 package main
 
-import (
-	"log"
-)
-
 const NUM_CARDS = 5
 const FLAG_STRAIGHT_FLUSH = 1 << 31
 const FLAG_FOUR_OF_A_KIND = 1 << 30
