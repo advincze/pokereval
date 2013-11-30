@@ -209,9 +209,17 @@ func TestShouldScoreHigherWithTwoPairsHigherKickerAce(t *testing.T) {
 
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
+
 func TestShouldScoreHigherWith3oakVsTwoPairs(t *testing.T) {
 	lowerHand := Hand(ParseCards("CK", "SK", "DQ", "HQ", "D7"))
 	higherHand := Hand(ParseCards("C2", "S2", "D3", "H2", "D6"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
+func TestShouldScoreHigherWith3oakHigherKicker(t *testing.T) {
+	lowerHand := Hand(ParseCards("C7", "S7", "D7", "S3", "DQ"))
+	higherHand := Hand(ParseCards("C7", "S7", "D7", "S3", "DK"))
 
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
@@ -223,9 +231,30 @@ func TestShouldScoreHigherWithStraightVs3oak(t *testing.T) {
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }
 
+func TestShouldScoreHigherWithHigherStraight(t *testing.T) {
+	lowerHand := Hand(ParseCards("C7", "S8", "D9", "S10", "DJ"))
+	higherHand := Hand(ParseCards("C8", "S9", "D10", "SJ", "DQ"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
+func TestShouldScoreHigherWithHigherStraightWithAce(t *testing.T) {
+	lowerHand := Hand(ParseCards("C7", "S8", "D9", "S10", "DJ"))
+	higherHand := Hand(ParseCards("CA", "SK", "D10", "SJ", "DQ"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
 func TestShouldScoreHigherWithFlushVsStraight(t *testing.T) {
 	lowerHand := Hand(ParseCards("SK", "SQ", "DJ", "H9", "D10"))
 	higherHand := Hand(ParseCards("C2", "C3", "C4", "C5", "C7"))
+
+	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
+}
+
+func TestShouldScoreHigherWithFlushVsFlushHigherCads(t *testing.T) {
+	lowerHand := Hand(ParseCards("C7", "C8", "C9", "C10", "CQ"))
+	higherHand := Hand(ParseCards("S2", "S3", "S4", "S5", "SK"))
 
 	ShouldScoreHigherWithBetterCombination(t, lowerHand, higherHand)
 }

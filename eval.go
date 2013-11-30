@@ -8,12 +8,12 @@ type EvalResult struct {
 	four     bool
 	three    bool
 	pairs    int
-	score    uint64
+	score    uint32
 }
 
 func eval5(hand Hand) *EvalResult {
 	// println("len of hand:", len(hand))
-	score := uint64(1)
+	score := uint32(0)
 
 	//precalculations
 	countRank := make([]int, 14)
@@ -56,7 +56,7 @@ func eval5(hand Hand) *EvalResult {
 		}
 	}
 	// println("straight:", straight)
-	primes := []uint64{41, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41}
+	// primes := []uint64{41, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41}
 
 	//check four of a kind, three of a kind and pairs
 	var four bool
@@ -66,7 +66,12 @@ func eval5(hand Hand) *EvalResult {
 		switch countRank[rank] {
 		case 1:
 			{
-				score *= primes[rank]
+				// score *= primes[rank]
+				i := uint(rank)
+				if i == 0 {
+					i = 13
+				}
+				score |= 1 << (i - 1)
 				// log.Printf("score1 : %v, %d %d\n", rank, primes[rank], score)
 			}
 
@@ -83,22 +88,22 @@ func eval5(hand Hand) *EvalResult {
 
 	if straight {
 		if flush {
-			score |= 1 << 36
+			score |= 1 << 22
 		} else {
-			score |= 1 << 32
+			score |= 1 << 18
 		}
 	} else if four {
-		score |= 1 << 35
+		score |= 1 << 21
 	} else if three && pairs == 1 {
-		score |= 1 << 34
+		score |= 1 << 20
 	} else if flush {
-		score |= 1 << 33
+		score |= 1 << 19
 	} else if three {
-		score |= 1 << 31
+		score |= 1 << 17
 	} else if pairs == 2 {
-		score |= 1 << 30
+		score |= 1 << 16
 	} else if pairs == 1 {
-		score |= 1 << 29
+		score |= 1 << 15
 	}
 	// log.Printf("score2 : %b\n", score)
 
