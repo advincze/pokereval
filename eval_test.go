@@ -19,117 +19,63 @@ func TestShouldRecogniseNonFlush(t *testing.T) {
 }
 
 func TestShouldRecogniseStraightWithNoAce(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_2),
-		NewCard(clubs, rank_4),
-		NewCard(clubs, rank_5),
-		NewCard(diamonds, rank_3),
-		NewCard(clubs, rank_6),
-	})
+	hand := Hand(ParseCards("C2", "C4", "C5", "C3", "C6"))
 	if !eval5(hand).straight {
 		t.Errorf("hand: %v should be recognised as a straight", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseStraightWithAceAsFirstCard(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_2),
-		NewCard(spades, rank_4),
-		NewCard(clubs, rank_5),
-		NewCard(clubs, rank_Ace),
-		NewCard(diamonds, rank_3),
-	})
+	hand := Hand(ParseCards("C2", "S4", "C5", "CA", "D3"))
 	if !eval5(hand).straight {
 		t.Errorf("hand: %v should be recognised as a straight", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseStraightWithAceAsLastCard(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_Queen),
-		NewCard(spades, rank_10),
-		NewCard(clubs, rank_Jack),
-		NewCard(clubs, rank_Ace),
-		NewCard(diamonds, rank_King),
-	})
+	hand := Hand(ParseCards("CQ", "S10", "CJ", "CA", "CK"))
 	if !eval5(hand).straight {
 		t.Errorf("hand: %v should be recognised as a straight", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseNonStraightWithAce(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_Queen),
-		NewCard(spades, rank_9),
-		NewCard(clubs, rank_Jack),
-		NewCard(clubs, rank_Ace),
-		NewCard(diamonds, rank_King),
-	})
+	hand := Hand(ParseCards("CQ", "S9", "CJ", "CJ", "DK"))
 	if eval5(hand).straight {
 		t.Errorf("hand: %v should not be recognised as a straight", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseFourOfAKind(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_2),
-		NewCard(spades, rank_2),
-		NewCard(diamonds, rank_2),
-		NewCard(hearts, rank_2),
-		NewCard(diamonds, rank_3),
-	})
+	hand := Hand(ParseCards("C2", "S2", "D2", "H2", "D3"))
 	if !eval5(hand).four {
 		t.Errorf("hand: %v should be recognised as a four of a kind", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseFourOfAKindAce(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_Ace),
-		NewCard(spades, rank_Ace),
-		NewCard(diamonds, rank_Ace),
-		NewCard(hearts, rank_Ace),
-		NewCard(diamonds, rank_2),
-	})
+	hand := Hand(ParseCards("CA", "SA", "DA", "HA", "D2"))
 	if !eval5(hand).four {
 		t.Errorf("hand: %v should be recognised as a four of a kind", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseThreeOfAKind(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_King),
-		NewCard(spades, rank_King),
-		NewCard(diamonds, rank_King),
-		NewCard(hearts, rank_Ace),
-		NewCard(diamonds, rank_2),
-	})
+	hand := Hand(ParseCards("CK", "SK", "DK", "HA", "D2"))
 	if !eval5(hand).three {
 		t.Errorf("hand: %v should be recognised as a three of a kind", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseFullHouse(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_King),
-		NewCard(spades, rank_King),
-		NewCard(diamonds, rank_Ace),
-		NewCard(hearts, rank_Ace),
-		NewCard(spades, rank_Ace),
-	})
+	hand := Hand(ParseCards("CK", "SK", "DA", "HA", "SA"))
 	if res := eval5(hand); !(res.three && res.pairs == 1) {
 		t.Errorf("hand: %v should be recognised as full house : three: %v and one pair: %d", Cards(hand), res.three, res.pairs)
 	}
 }
 
 func TestShouldRecogniseTwoPairs(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_King),
-		NewCard(spades, rank_King),
-		NewCard(diamonds, rank_Ace),
-		NewCard(hearts, rank_Ace),
-		NewCard(diamonds, rank_2),
-	})
+	hand := Hand(ParseCards("CK", "SK", "DA", "HA", "D2"))
 	if res := eval5(hand); res.pairs != 2 {
 		t.Errorf("hand: %v should be recognised as two pairs, were: %d", Cards(hand), res.pairs)
 	}
