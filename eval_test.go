@@ -5,26 +5,14 @@ import (
 )
 
 func TestShouldRecogniseFlush(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_2),
-		NewCard(clubs, rank_4),
-		NewCard(clubs, rank_6),
-		NewCard(clubs, rank_8),
-		NewCard(clubs, rank_10),
-	})
+	hand := Hand(ParseCards("C2", "C4", "C6", "C8", "C10"))
 	if !eval5(hand).flush {
 		t.Errorf("hand: %v should be recognised as a flush", Cards(hand))
 	}
 }
 
 func TestShouldRecogniseNonFlush(t *testing.T) {
-	hand := Hand([]*Card{
-		NewCard(clubs, rank_2),
-		NewCard(clubs, rank_4),
-		NewCard(clubs, rank_6),
-		NewCard(clubs, rank_8),
-		NewCard(diamonds, rank_10),
-	})
+	hand := Hand(ParseCards("C2", "C4", "C6", "C8", "D10"))
 	if eval5(hand).flush {
 		t.Errorf("hand: %v should not be recognised as a flush", Cards(hand))
 	}
