@@ -1,9 +1,5 @@
 package main
 
-import (
-	"log"
-)
-
 const NUM_CARDS = 5
 
 type EvalResult struct {
@@ -37,31 +33,7 @@ func eval5(hand Hand) *EvalResult {
 	}
 
 	// check for straight
-	var straight bool
-	var consecutive_ranks int
-	rank := rank_2
-	for ; numInRank[rank] == 0; rank++ {
-		// log.Printf("consecutive ranks skiping: %v\n", rank)
-	}
-	log.Printf("rank : %d \n", rank)
-	for ; rank <= rank_Ace; rank++ {
-		// log.Printf("consecutive rank found: %v\n", rank)
-		if numInRank[rank] != 0 {
-			consecutive_ranks++
-		} else {
-			break
-		}
-
-	}
-	if consecutive_ranks == NUM_CARDS {
-		straight = true
-		// log.Printf("consecutive ranks found: %d\n", consecutive_ranks)
-
-	} else if consecutive_ranks == NUM_CARDS-1 && numInRank[rank_Ace] != 0 && numInRank[rank_2] != 0 && numInRank[rank_5] != 0 {
-		straight = true
-		// log.Printf("consecutive ranks found: %d\n", consecutive_ranks)
-	}
-	// log.Printf("consecutive ranks found: %d\n", consecutive_ranks)
+	straight := checkStraight(&numInRank)
 
 	//check four of a kind, three of a kind and pairs
 	var four bool
@@ -70,10 +42,9 @@ func eval5(hand Hand) *EvalResult {
 	var lowerRank Rank
 	var pairs int
 	var rankScore uint32
-	for rank = rank_2; rank <= rank_Ace; rank += 1 {
+	for rank := rank_2; rank <= rank_Ace; rank += 1 {
 
 		if numInRank[rank] != 0 {
-			log.Println("found rank:", rank)
 			rankScore |= 1 << rank
 		}
 
@@ -90,34 +61,27 @@ func eval5(hand Hand) *EvalResult {
 		}
 	}
 
-	log.Printf("score1 : %b\n", score)
 	score |= rankScore
-	log.Printf("score2 : %b\n", score)
 
 	if straight && flush {
 		score |= 1 << 31
 	} else if four {
 		score |= 1 << 30
-		// score |= uint32(highRank) << 20
 	} else if three && pairs == 1 {
 		score |= 1 << 29
-		// score |= uint32(highRank) << 20
 	} else if flush {
 		score |= 1 << 28
 	} else if straight {
 		score |= 1 << 27
 	} else if three {
 		score |= 1 << 26
-		// score |= uint32(highRank) << 20
 	} else if pairs == 2 {
 		score |= 1 << 25
 	} else if pairs == 1 {
 		score |= 1 << 24
 	}
-	log.Printf("score3 : %b\n", score)
 	score |= uint32(highRank+1) << 20
 	score |= uint32(lowerRank+1) << 16
-	log.Printf("score4 : %b\n", score)
 
 	return &EvalResult{
 		straight: straight,
@@ -127,4 +91,22 @@ func eval5(hand Hand) *EvalResult {
 		pairs:    pairs,
 		score:    score,
 	}
+}
+
+func checkStraight(numInRank *[NUM_RANKS]int) bool {
+
+	var consecutive_ranks int
+	rank := rank_2
+	for ; numInRank[rank] == 0; rank++ {
+	}
+	for ; rank <= rank_Ace && numInRank[rank] != 0; rank++ {
+		consecutive_ranks++
+	}
+	if consecutive_ranks == NUM_CARDS {
+		return true
+
+	} else if consecutive_ranks == NUM_CARDS-1 && numInRank[rank_Ace] != 0 && numInRank[rank_2] != 0 && numInRank[rank_5] != 0 {
+		return true
+	}
+	return false
 }
